@@ -1,6 +1,6 @@
 import random
 import sys
-from cardlib import hand, handCounter
+from cardlib import hand, ExitLoop
 
 class printStatements:
 
@@ -28,15 +28,15 @@ def playDealerHand():
 
 def resolveOutcome(pVal, dVal):
     if pVal > 21:
-        print(f"pVal = {pVal}, dVal = {dVal}. Player busts, game over")
+        print(f"Player scores {pVal}, Dealer scores {dVal}. Player busts, game over")
     elif dVal > 21:
-        print(f"pVal = {pVal}, dVal = {dVal}. Dealer busts, player wins!")
+        print(f"Player scores {pVal}, Dealer scores {dVal}. Dealer busts, player wins!")
     elif pVal == dVal:
-        print(f"pVal = {pVal}, dVal = {dVal}. It's a Tie!")
+        print(f"Player scores {pVal}, Dealer scores {dVal}. It's a Tie!")
     elif pVal > dVal:
-        print(f"pVal = {pVal}, dVal = {dVal}. Player wins!")
+        print(f"Player scores {pVal}, Dealer scores {dVal}. Player wins!")
     elif dVal > pVal:
-        print(f"pVal = {pVal}, dVal = {dVal}. Dealer wins!")
+        print(f"Player scores {pVal}, Dealer scores {dVal}. Dealer wins!")
     else:
         print(f"well this is awkward. pVal = {pVal}, dVal = {dVal}")
     
@@ -49,14 +49,14 @@ def gameLoop():
                 case "s":
                     break
                 case "t":
-                    playerHand.addCard(dealerHand.removeCardDeck())
+                    playerHand.addCard(deck.removeCardDeck())
                     print(f"your card is {playerHand.cards[-1].returnDisplayName()}")
                     playerHand.bustCheck()
                     playerHand.printHand()
                     decision = text.stickOrTwist()
                 case _:
                     decision = input("Please enter s or t:")
-    except:
+    except ExitLoop as e:
         pass
 
     playDealerHand()
@@ -72,7 +72,6 @@ playerHand = hand("Player")
 dealerHand = hand("Dealer")
 dealStartingHand()
 playerHand.printHand()
-# dealerHand.printHand()
 
 gameLoop()
 

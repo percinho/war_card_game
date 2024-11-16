@@ -45,7 +45,6 @@ class hand:
             return self.cards.pop(0)
         else:
             print(f"{self.playerName} has run out of cards and has lost!")
-            # print(f"it took {spam.count} rounds")
             raise ExitLoop
     
     def resetHand(self):
@@ -115,18 +114,14 @@ class hand:
         return False
     
     def bustCheck(self):
-        # print(f"bustcheck, {self.calcHandValue()}")
         if self.calcHandValue() > 21 and self.highAceInHand() is True:
             for i in self.cards:
-                # print(i)
-                # print(f"{i.value}, {i.name}, {i.suit}")
                 if self.highAceCheck(i) is True:
-                    # print("are we here?")
                     i.reduceAce()
                     return None
             print(f"We shouldn't get here")
         elif self.calcHandValue() > 21:
-            print(f"hand value is {self.calcHandValue()}. Need to check for aces")
+            print(f"hand value is {self.calcHandValue()}")
             raise ExitLoop
         elif self.calcHandValue() == 21:
             print(f"hand value is {self.calcHandValue()}")
