@@ -7,7 +7,7 @@ p1hand = hand("Player 1")
 p2hand = hand("Player 2")
 spam = handCounter()
 
-deck.createFreshDeck()
+deck.createFreshDeck('full')
 
 def dealHands():
     while len(deck.cards) > 0:
@@ -43,7 +43,7 @@ def playRound():
 def setupNewGame():
     p1hand.resetHand()
     p2hand.resetHand()
-    deck.setupCards()
+    deck.createFreshDeck('full')
     deck.shuffleHand()
     dealHands()
 

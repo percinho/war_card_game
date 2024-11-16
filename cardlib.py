@@ -13,6 +13,13 @@ class card:
     
     def displayName(self):
         print(f"{self.name}{self.suit}")
+    
+    def returnDisplayName(self):
+        return f"{self.name}{self.suit}"
+    
+    def reduceAce(self):
+        self.value = 1
+        # print(f"have reduced value to {self.value}")
 
 class hand:
 
@@ -48,7 +55,7 @@ class hand:
         spam = card(cardVal, cardName, cardSuit)
         self.addCard(spam)
 
-    def setupCards(self):    
+    def setupCards(self, type):    
         for val in range(2,15):
             if val < 11:
                 for suit in ("h", "d", "s","c"):
@@ -57,23 +64,79 @@ class hand:
                 match val:
                     case 11:
                         for suit in ("h", "d", "s","c"):
+                            if type == 'face':
+                                val = 10
                             self.generateCards(val, "J", suit)
                     
                     case 12:
                         for suit in ("h", "d", "s","c"):
+                            if type == 'face':
+                                val = 10
                             self.generateCards(val, "Q", suit)
                     
                     case 13:
                         for suit in ("h", "d", "s","c"):
+                            if type == 'face':
+                                val = 10
                             self.generateCards(val, "K", suit)
 
                     case 14:
                         for suit in ("h", "d", "s","c"):
+                            if type == 'face':
+                                val = 11
                             self.generateCards(val, "A", suit)
 
-    def createFreshDeck(self):
+    def createFreshDeck(self, type):
         self.cards = []
-        self.setupCards()
+        self.setupCards(type)
+    
+    def calcHandValue(self):
+        handValue = 0
+        for i in self.cards:
+            handValue += i.value
+        return handValue
+    
+    def printHand(self):
+        print("Your hand is: ", end="")
+        for i in self.cards:
+            print(i.returnDisplayName(), end=" ")
+        print(f"\nThe hand value is: {self.calcHandValue()}")
+    
+    def highAceCheck(self, card):
+        if card.name == 'A' and card.value == 11:
+            return True
+        else:
+            return False
+    
+    def highAceInHand(self):
+        for x in self.cards:
+            if x.value == 11 and x.name == 'A':
+                return True
+        return False
+    
+    def bustCheck(self):
+        # print(f"bustcheck, {self.calcHandValue()}")
+        if self.calcHandValue() > 21 and self.highAceInHand() is True:
+            for i in self.cards:
+                # print(i)
+                # print(f"{i.value}, {i.name}, {i.suit}")
+                if self.highAceCheck(i) is True:
+                    # print("are we here?")
+                    i.reduceAce()
+                    return None
+            print(f"We shouldn't get here")
+        elif self.calcHandValue() > 21:
+            print(f"hand value is {self.calcHandValue()}. Need to check for aces")
+            raise ExitLoop
+        elif self.calcHandValue() == 21:
+            print(f"hand value is {self.calcHandValue()}")
+            raise ExitLoop
+        else:
+            return None
+    
+    def dealerShows(self):
+        print(f"The dealer shows {self.cards[0].returnDisplayName()}")
+
 
 class handCounter:
 
@@ -85,4 +148,6 @@ class handCounter:
     
     def reset(self):
         self.count = 0
+
+
 
