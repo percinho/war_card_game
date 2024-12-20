@@ -151,6 +151,30 @@ class handCounter:
     
     def reset(self):
         self.count = 0
+    
+class bank:
+
+    def __init__(self, kitty) -> None:
+        self.kitty = kitty
+    
+    def printKitty(self):
+        print(f"You have {self.kitty} coins")
+    
+    def addToKitty(self, amount):
+        self.kitty += amount
+        self.printKitty()
+    
+    def removeFromKitty(self, amount):
+        self.kitty -= amount
+        self.printKitty()
+
+    def checkAmount(self, amount):
+        if self.kitty < amount:
+            return False
+        else:
+            return True
+    
+    
 
 
 
