@@ -101,6 +101,12 @@ class hand:
             print(i.returnDisplayName(), end=" ")
         print(f"\nThe hand value is: {self.calcHandValue()}")
     
+
+class blackjackHand(hand):
+
+    def __init__(self, playerName):
+        super().__init__(playerName)
+    
     def highAceCheck(self, card):
         if card.name == 'A' and card.value == 11:
             return True
@@ -131,6 +137,8 @@ class hand:
     
     def dealerShows(self):
         print(f"The dealer shows {self.cards[0].returnDisplayName()}")
+    
+
 
 
 class handCounter:

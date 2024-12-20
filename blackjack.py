@@ -1,6 +1,6 @@
 import random
 import sys
-from cardlib import hand, ExitLoop
+from cardlib import blackjackHand, ExitLoop
 
 class printStatements:
 
@@ -65,11 +65,11 @@ def gameLoop():
     
 
 text = printStatements()
-deck = hand("deck")
+deck = blackjackHand("deck")
 deck.createFreshDeck('face')
 deck.shuffleHand()
-playerHand = hand("Player")
-dealerHand = hand("Dealer")
+playerHand = blackjackHand("Player")
+dealerHand = blackjackHand("Dealer")
 dealStartingHand()
 playerHand.printHand()
 
