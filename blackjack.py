@@ -1,6 +1,8 @@
 import random
 import sys
-from cardlib import blackjackHand, ExitLoop
+from cardlib import blackjackHand, ExitLoop, bank
+
+# Need to make sure dealer hand isn;t played out if player busts
 
 class printStatements:
 
@@ -13,6 +15,9 @@ class printStatements:
     
     def bust(self):
         print("You have gone bust")
+
+    def betSize(self, bank):
+        print(f"You have {bank}. How much do you want to bet:")
 
 def dealStartingHand():
     for i in range(1, 3):
@@ -29,18 +34,26 @@ def playDealerHand():
 def resolveOutcome(pVal, dVal):
     if pVal > 21:
         print(f"Player scores {pVal}, Dealer scores {dVal}. Player busts, game over")
+        return 0
     elif dVal > 21:
         print(f"Player scores {pVal}, Dealer scores {dVal}. Dealer busts, player wins!")
+        return 1
     elif pVal == dVal:
         print(f"Player scores {pVal}, Dealer scores {dVal}. It's a Tie!")
+        return 2
     elif pVal > dVal:
         print(f"Player scores {pVal}, Dealer scores {dVal}. Player wins!")
+        return 1
     elif dVal > pVal:
         print(f"Player scores {pVal}, Dealer scores {dVal}. Dealer wins!")
+        return 0
     else:
         print(f"well this is awkward. pVal = {pVal}, dVal = {dVal}")
     
 def gameLoop():
+    pot = playerBank.initialAnte()
+    dealStartingHand()
+    playerHand.printHand()
     dealerHand.dealerShows()
     decision = text.stickOrTwist()
     try:
@@ -60,18 +73,21 @@ def gameLoop():
         pass
 
     playDealerHand()
-    resolveOutcome(playerHand.calcHandValue(), dealerHand.calcHandValue())
+    outcome = resolveOutcome(playerHand.calcHandValue(), dealerHand.calcHandValue())
+    print(pot)
+    playerBank.resolveBet(outcome, pot)
 
     
 
+playerBank = bank(50)
 text = printStatements()
 deck = blackjackHand("deck")
 deck.createFreshDeck('face')
 deck.shuffleHand()
 playerHand = blackjackHand("Player")
 dealerHand = blackjackHand("Dealer")
-dealStartingHand()
-playerHand.printHand()
+
+
 
 gameLoop()
 

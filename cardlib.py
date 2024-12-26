@@ -174,7 +174,29 @@ class bank:
         else:
             return True
     
+    def initialAnte(self):
+        while True:
+            bet = int(input(f"You have {self.kitty}. How much do you want to bet:"))
+            if bet <= self.kitty:
+                self.kitty -= bet
+                print(f"Bet placed. Game on.")
+                return bet
+            else:
+                print(f"Please place valid bet")
     
+    def resolveBet(self, outcome, bet):
+        match outcome:
+            case 0:
+                self.printKitty()
+            case 1:
+                print(f"You win {bet * 2}")
+                self.addToKitty(bet *2)
+                
+            case 2: 
+                print(f"Your stake is returned")
+                self.addToKitty(bet)
+                
+        
 
 
 
