@@ -26,6 +26,7 @@ class hand:
     def __init__(self, playerName):
         self.cards=[]
         self.playerName=playerName
+        self.isBust = False
     
     def addCard(self, newCard):
         self.cards.append(newCard)
@@ -124,16 +125,16 @@ class blackjackHand(hand):
             for i in self.cards:
                 if self.highAceCheck(i) is True:
                     i.reduceAce()
-                    return None
+                    return 0
             print(f"We shouldn't get here")
         elif self.calcHandValue() > 21:
             print(f"hand value is {self.calcHandValue()}")
-            raise ExitLoop
+            return 1
         elif self.calcHandValue() == 21:
             print(f"hand value is {self.calcHandValue()}")
-            raise ExitLoop
+            return 2
         else:
-            return None
+            return 0
     
     def dealerShows(self):
         print(f"The dealer shows {self.cards[0].returnDisplayName()}")

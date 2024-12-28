@@ -56,25 +56,31 @@ def gameLoop():
     playerHand.printHand()
     dealerHand.dealerShows()
     decision = text.stickOrTwist()
-    try:
-        while True:
-            match decision:
-                case "s":
-                    break
-                case "t":
-                    playerHand.addCard(deck.removeCardDeck())
-                    print(f"your card is {playerHand.cards[-1].returnDisplayName()}")
-                    playerHand.bustCheck()
-                    playerHand.printHand()
+    player_bust = 0
+    while player_bust == 0:
+        match decision:
+            case "s":
+                break
+            case "t":
+                playerHand.addCard(deck.removeCardDeck())
+                print(f"your card is {playerHand.cards[-1].returnDisplayName()}")
+                player_bust = playerHand.bustCheck()
+                playerHand.printHand()
+                if player_bust == 0:
                     decision = text.stickOrTwist()
-                case _:
-                    decision = input("Please enter s or t:")
-    except ExitLoop as e:
-        pass
+                elif player_bust == 2:
+                    break
+                else:
+                    pass
+            case _:
+                decision = input("Please enter s or t:")
 
-    playDealerHand()
+    if player_bust == 0:
+        playDealerHand()
+    else:
+        pass
     outcome = resolveOutcome(playerHand.calcHandValue(), dealerHand.calcHandValue())
-    print(pot)
+    # print(pot)
     playerBank.resolveBet(outcome, pot)
 
     
